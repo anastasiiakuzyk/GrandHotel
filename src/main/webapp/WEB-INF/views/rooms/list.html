@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>General view</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main>
+    <aside>
+        <div class="content">
+            <div class="aside__header">
+                <img th:src="@{/img/logo.png}" alt="Logo"/>
+                <h2><b>Grand</b> Leon</h2>
+            </div>
+            <div class="product__menu">
+                <div class="product__menu__heading">MENU</div>
+                <ul>
+                    <li>
+                        <a th:href="@{/}" role="button">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/booking.png}"
+                                     alt="Booking link"/>
+                            </div>
+                            <span>Booking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/rooms/}" role="button" class="active">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/bed.png}" alt="Rooms link"/>
+                            </div>
+                            <span>Rooms</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/guests/}" role="button">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/guest.png}"
+                                     alt="Rooms link"/>
+                            </div>
+                            <span>Guests</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <section class="main__content">
+        <div class="content guest">
+            <header>
+                <h2>Rooms</h2>
+                <a class="button primary" role="button" th:href="@{/rooms/new}">Add new room</a>
+            </header>
+            <div class="guest__list__block">
+                <div class="room__list__item" th:each="room : ${rooms}">
+                    <div class="guest__personal__info">
+                        <div class="guest__contact__data">
+                            <div class="guest__name" th:text="'Room №'+ ${room.getId()}"></div>
+                                <div th:if="${room.getOptionsList() != ''}">
+                                    <div class="guest__document">Room options: <b th:text="${room.getOptionsList()}"></b></div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="guest__room">
+                        <div class="room__type">Room type:<br/><b th:text="${room.getType()}"></b></div>
+                    </div>
+                    <div class="guest__room">
+                        <div class="room__type">Price:<br/><b th:text="${room.getPrice() + '$'}"></b></div>
+                    </div>
+                    <div class="guest__button">
+                        <a class="button primary smaller" role="button" th:href="@{/rooms/{id}(id=${room.getId()})}">Show Room Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

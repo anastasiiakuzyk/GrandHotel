@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+<head>
+    <title>General view</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main>
+    <aside>
+        <div class="content">
+            <div class="aside__header">
+                <img th:src="@{/img/logo.png}" alt="Logo"/>
+                <h2><b>Grand</b> Leon</h2>
+            </div>
+            <div class="product__menu">
+                <div class="product__menu__heading">MENU</div>
+                <ul>
+                    <li>
+                        <a th:href="@{/}" role="button" class="active">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/booking.png}"
+                                     alt="Booking link"/>
+                            </div>
+                            <span>Booking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/rooms/}" role="button">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/bed.png}" alt="Rooms link"/>
+                            </div>
+                            <span>Rooms</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/guests}" role="button">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/guest.png}"
+                                     alt="Rooms link"/>
+                            </div>
+                            <span>Guests</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <section class="main__content">
+        <div class="content">
+            <header>
+                <h2>Upcoming guests</h2>
+                <a class="button primary" role="button" th:href="@{/book}">Book room</a>
+            </header>
+            <div class="upcoming__guests">
+                <div class="guest__list__block">
+                    <div class="room__list__item" th:each="book : ${bookings}">
+                        <div class="book__personal__info">
+                            <div class="guest__contact__data">
+                                <div class="guest__name">
+                                    <b th:text="${book.getLastName()}"></b>
+                                    <span th:text=" ${book.getFirstName()}"></span>
+                                </div>
+                                <div>
+                                    <div class="guest__phone">from: <b th:text="${book.getGuestArrive()}"></b></div>
+                                    <div class="guest__phone">to: <b th:text="${book.getGuestLeave()}"></b></div>
+                                    <br>
+                                    <div class="guest__phone">Email: <b th:text="${book.getEmail()}"></b></div>
+                                    <div class="guest__phone">Phone: <b th:text="${book.getGuestPhone()}"></b></div>
+                                    <div class="guest__document">Passport: <b th:text="${book.getPassport()}"></b></div>
+                                </div>
+                            </div>
+                            <div class="guest__options">
+                                <div>
+                                    <b>Personal data:</b>
+                                    <br/>
+                                    <span th:text="${book.getPersonalOptions()}">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="guest__room">
+                            <div class="room__type">Room number:<br/><b th:text="${book.getRoomNumber()}"></b></div>
+                        </div>
+                        <div class="guest__room">
+                            <div class="room__type">Room type:<br/><b th:text="${book.getRoomType()}"></b></div>
+                        </div>
+                        <div class="guest__room">
+                            <div class="room__type">Total price:<br/><b th:text="${book.getTotalPrice() + '$'}"></b></div>
+                        </div>
+                        <div class="guest__button">
+                            <form th:method="DELETE" th:action="@{/{id}(id=${book.getId()})}">
+                                <input class="button small" type="submit" value="delete">
+                            </form>
+                            <a class="button primary smaller" role="button"
+                               th:href="@{/guests/{id}(id=${book.getGuestId()})}">Show Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guest Name</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css"/>
+    <script th:src="@{/js/option_select.js}"></script>
+    <script th:inline="javascript">
+        const reqData = /*[[${options}]]*/;
+        let data = /*[[${roomOptions}]]*/;
+        if (data === null) {
+            data = [];
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main class="popup__wrapper">
+    <section class="main__content popup">
+        <div class="content">
+            <header>
+                <h1 th:text="'Room №'+ ${room.getId()}"></h1>
+                <a th:href="@{/rooms/}">
+                    <span role="button" class="iconify popup__close" data-icon="carbon:close"
+                          style="color: #16a085;" data-width="32" data-height="32">
+                    </span>
+                </a>
+            </header>
+            <form style="max-width: 500px;display: block;" th:method="PATCH" th:action="@{/rooms/{id}(id=${room.getId()})}" th:object="${room}">
+                <div class="guest__block">
+                    <h4 class="guest__sub__heading">Room information:</h4>
+                    <div class="guest__block__content">
+                        <div class="guest__block__content__header">
+                            Room Type:
+                        </div>
+                        <div class="guest__block__content__data">
+                            <select class="select" th:field="*{typeId}" required>
+                                <option th:each="it : ${types}"
+                                        th:value="${it.getId()}"
+                                        th:text="${it.getType()}"
+                                        th:selected="${it.getId()==room.typeId}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="guest__block__content__header">
+                            Price:
+                        </div>
+                        <div class="guest__block__content__data">
+                            <input type="number" th:field="*{price}" id="price" required/>
+                            <div class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                        </div>
+                    </div>
+                    <div class="guest__block__content expanded selected">
+                        <h4 class="guest__sub__heading"><b>Personal data:</b></h4>
+                        <div class="chose">Chosen:</div>
+                        <div id="option_select_list" class="guest__block__content__data">
+                            Курит, Пьет, не бьет детей.
+                        </div>
+                        <input type="text" id="option" placeholder="Start typing...">
+                        <select style="display: none;" th:field="*{options}" multiple="multiple" id="options"></select>
+                        <div id="option__list" class="expanded__list">
+                        </div>
+                    </div>
+                    <div class="guest__button__wrapper">
+                        <input type="submit" class="button primary" value="Save"/>
+                        <a role="button" th:href="@{/rooms/{id}(id=${room.getId()})}" class="button small">Discard</a>
+                    </div>
+
+                </div>
+            </form>
+            <footer>
+                <img class="footer__image" th:src="@{/img/logo.png}" alt="Grand Leon"/>
+                <div>Room Card. <b>Grand Leon Hotel</b></div>
+            </footer>
+        </div>
+    </section>
+</main>
+</body>
+</html>

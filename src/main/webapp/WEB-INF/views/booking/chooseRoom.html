@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+<head>
+    <title>Guest Name</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script th:src="@{/js/option_select.js}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main class="popup__wrapper">
+    <section class="main__content popup">
+        <form th:method="POST" th:action="@{/}" th:object="${fullBooking}">
+            <div class="content">
+                <header>
+                    <h1>Book a room</h1>
+                    <a th:href="@{/}">
+                    <span role="button" class="iconify popup__close" data-icon="carbon:close"
+                          style="color: #16a085;" data-width="32" data-height="32">
+                    </span>
+                    </a>
+                </header>
+                <div class="booking__container">
+                    <div class="row">
+                        <div class="input__group">
+                            <label for="book__date__arive">Choose arive date:</label><br/>
+                            <input id="book__date__arive" type="hidden" th:field="*{arriving}" required/>
+                            <span th:text="*{arriving}"></span>
+                        </div>
+
+                        <div class="input__group">
+                            <label for="book__date">Choose leave date:</label><br/>
+                            <input id="book__date" type="hidden" th:field="*{leaving}" required/>
+                            <span th:text="*{leaving}"></span>
+
+                        </div>
+
+                        <div id="toggleable" class="input__group expanded" style="grid-column: 1/3;">
+                            <label>Guest:</label><br/>
+                            <input type="hidden" th:field="*{guestId}" required/>
+                            <span th:text="${guest.getFirstName() +' '+ guest.getLastName()}"></span>
+                        </div>
+
+                        <div class="input__group" style="grid-column: 1/3;">
+                            <label for="choose_room">Choose room:</label><br/>
+                            <select class="select" id="choose_room" th:field="*{roomId}" required>
+                                <option th:each="ig : ${rooms}"
+                                        th:value="${ig.getId()}"
+                                        th:text="${'Room №'+ ig.getId() +', Type: '+ ig.getType()}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="guest__button__wrapper">
+                        <input type="submit" class="button primary" value="Save"/>
+                        <a role="button" th:href="@{/rooms/{id}(id=${room.getId()})}" class="button small">Discard</a>
+                    </div>
+                </div>
+                <footer>
+                    <img class="footer__image" th:src="@{/img/logo.png}" alt="Grand Leon"/>
+                    <div>Booking Card. <b>Grand Leon Hotel</b></div>
+                </footer>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

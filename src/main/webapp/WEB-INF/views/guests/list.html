@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>General view</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main>
+    <aside>
+        <div class="content">
+            <div class="aside__header">
+                <img th:src="@{/img/logo.png}" alt="Logo"/>
+                <h2><b>Grand</b> Leon</h2>
+            </div>
+            <div class="product__menu">
+                <div class="product__menu__heading">MENU</div>
+                <ul>
+                    <li>
+                        <a th:href="@{/}" role="button">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/booking.png}"
+                                     alt="Booking link"/>
+                            </div>
+                            <span>Booking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/rooms/}" role="button">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/bed.png}" alt="Rooms link"/>
+                            </div>
+                            <span>Rooms</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/guests/}" role="button" class="active">
+                            <div class="product__menu__image__wrapper">
+                                <img class="product__menu__image" th:src="@{/img/guest.png}"
+                                     alt="Rooms link"/>
+                            </div>
+                            <span>Guests</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <section class="main__content">
+        <div class="content guest">
+            <header>
+                <h2>Guests</h2>
+                <a class="button primary" role="button" th:href="@{/guests/new}">Add new guest</a>
+            </header>
+            <form th:method="GET" th:action="@{/guests/}">
+                <div class="filters">
+                    <input type="text" name="search" placeholder="Enter name or docs or number to search" th:value="${search}"/>
+                    <div class="date__wrapper">
+                        <input type="submit" value="Search">
+                    </div>
+                </div>
+            </form>
+            <div class="guest__list__block">
+                <div th:if="${guests.size() == 0}" class="not__found">
+                    Sorry, we couldn't find guests by assigned params 😔
+                </div>
+                <div class="guest__list__item" th:each="guest : ${guests}">
+                    <div class="guest__personal__info">
+                        <div class="guest__contact__data">
+                            <div class="guest__name"><b th:text="${guest.getLastName()}"></b>
+                                <span th:text=" ${guest.getFirstName()}"></span>
+                            </div>
+                            <div>
+                                <div class="guest__document">Passport: <b th:text="${guest.getPassport()}"></b></div>
+                                <div class="guest__phone">Telephone: <b th:text="${guest.getPhone()}"></b></div>
+                                <div class="guest__phone">Email: <b th:text="${guest.getEmail()}"></b></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="guest__options" th:if="${guest.getOptionsList() != ''}">
+                        <div>
+                            <b>Personal data:</b>
+                            <br/>
+                            <span th:text="${guest.getOptionsList()}"></span>
+                        </div>
+                    </div>
+                    <div class="guest__button">
+                        <a class="button primary smaller" role="button" th:href="@{/guests/{id}(id=${guest.id})}">Show Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
